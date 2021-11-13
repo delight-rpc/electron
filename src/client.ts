@@ -3,16 +3,17 @@ import { isJsonRpcSuccess, isJsonRpcError } from '@blackglory/types'
 import { Deferred } from 'extra-promise'
 import { JsonRpcResponse } from 'justypes'
 import Electron from 'electron'
+import { CustomError } from '@blackglory/errors'
 
 export function createClientInMain<IAPI extends object>(
   port: Electron.MessagePortMain
-): DelightRPC.RequestProxy<IAPI> {
+): [client: DelightRPC.RequestProxy<IAPI>, close: () => void] {
   const pendings: { [id: string]: Deferred<JsonRpcResponse<any>> } = {}
 
   port.addListener('message', handler)
   port.start()
 
-  return DelightRPC.createClient<IAPI>(
+  const client = DelightRPC.createClient<IAPI>(
     async function request(jsonRpc) {
       const res = new Deferred<JsonRpcResponse<any>>()
       pendings[jsonRpc.id] = res
@@ -24,6 +25,18 @@ export function createClientInMain<IAPI extends object>(
       }
     }
   )
+
+  return [client, close]
+
+  function close(): void {
+    port.removeListener('message', handler)
+    port.close()
+
+    for (const [key, deferred] of Object.entries(pendings)) {
+      deferred.reject(new ClientClosed())
+      delete pendings[key]
+    }
+  }
 
   function handler(event: Electron.MessageEvent): void {
     const res = event.data
@@ -37,13 +50,13 @@ export function createClientInMain<IAPI extends object>(
 
 export function createClientInRenderer<IAPI extends object>(
   port: MessagePort
-): DelightRPC.RequestProxy<IAPI> {
+): [client: DelightRPC.RequestProxy<IAPI>, close: () => void] {
   const pendings: { [id: string]: Deferred<JsonRpcResponse<any>> } = {}
 
   port.addEventListener('message', handler)
   port.start()
 
-  return DelightRPC.createClient<IAPI>(
+  const client = DelightRPC.createClient<IAPI>(
     async function request(jsonRpc) {
       const res = new Deferred<JsonRpcResponse<any>>()
       pendings[jsonRpc.id] = res
@@ -56,6 +69,18 @@ export function createClientInRenderer<IAPI extends object>(
     }
   )
 
+  return [client, close]
+
+  function close(): void {
+    port.removeEventListener('message', handler)
+    port.close()
+
+    for (const [key, deferred] of Object.entries(pendings)) {
+      deferred.reject(new ClientClosed())
+      delete pendings[key]
+    }
+  }
+
   function handler(event: MessageEvent): void {
     const res = event.data
     if (isJsonRpcSuccess(res)) {
@@ -65,3 +90,5 @@ export function createClientInRenderer<IAPI extends object>(
     }
   }
 }
+
+export class ClientClosed extends CustomError {}

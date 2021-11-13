@@ -22,7 +22,7 @@ await app.whenReady()
 
 ipcMain.on('message-port', async event => {
   const [port] = event.ports
-  const client = createClientInMain<IAPI>(port)
+  const [client] = createClientInMain<IAPI>(port)
   await client.echo('hello world')
 })
 
@@ -103,7 +103,7 @@ import { createClientInRenderer } from '@delight-rpc/electron'
 // because its script file is always executed last.
 const channel = new MessageChannel()
 window.postMessage('message-port', '*', [channel.port2])
-const client = createClientInRenderer(api, channel.port1)
+const [client] = createClientInRenderer(api, channel.port1)
 await client.echo('hello world')
 ```
 
@@ -172,7 +172,7 @@ import { createClientInRenderer } from '@delight-rpc/electron'
 window.addEventListener('message', async event => {
   if (event.data === 'message-port') {
     const [port] = event.ports
-    createClientInRenderer<IAPI>(port)
+    const [client] = createClientInRenderer<IAPI>(port)
     await client.echo('hello world')
   }
 })
@@ -185,14 +185,14 @@ window.ready()
 ```ts
 function createClientInMain<IAPI extends object>(
   port: Electron.MessagePortMain
-): DelightRPC.RequestProxy<IAPI>
+): [client: DelightRPC.RequestProxy<IAPI>, close: () => void]
 ```
 
 ### createClientInRenderer
 ```ts
 function createClientInRenderer<IAPI extends object>(
   port: MessagePort
-): DelightRPC.RequestProxy<IAPI>
+): [client: DelightRPC.RequestProxy<IAPI>, close: () => void]
 ```
 
 ### createServerInMain
