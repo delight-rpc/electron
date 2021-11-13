@@ -22,7 +22,6 @@ await app.whenReady()
 
 ipcMain.on('message-port', async event => {
   const [port] = event.ports
-  port.start()
   const client = createClientInMain<IAPI>(port)
   await client.echo('hello world')
 })
@@ -54,7 +53,6 @@ const api: IAPI = {
 // create the MessageChannel in the renderer,
 // because its script file is always executed last.
 const channel = new MessageChannel()
-channel.port1.start()
 createServerInRenderer(api, channel.port1)
 window.postMessage('message-port', '*', [channel.port2])
 ```
@@ -80,7 +78,6 @@ await app.whenReady()
 
 ipcMain.on('message-port', async event => {
   const [port] = event.ports
-  port.start()
   createServerInMain(api, port)
 })
 
@@ -95,7 +92,6 @@ import { ipcRenderer } from 'electron'
 window.addEventListener('message', event => {
   if (event.data === 'message-port') {
     const [port] = event.ports
-    port.start()
     ipcRenderer.postMessage('message-port', null, [port])
   }
 })
@@ -106,7 +102,6 @@ import { createClientInRenderer } from '@delight-rpc/electron'
 // create the MessageChannel in the renderer,
 // because its script file is always executed last.
 const channel = new MessageChannel()
-channel.port1.start()
 window.postMessage('message-port', '*', [channel.port2])
 const client = createClientInRenderer(api, channel.port1)
 await client.echo('hello world')
@@ -165,7 +160,6 @@ const api: IAPI = {
 window.addEventListener('message', async event => {
   if (event.data === 'message-port') {
     const [port] = event.ports
-    port.start()
     createServerInRenderer(api, port)
   }
 })
@@ -178,7 +172,6 @@ import { createClientInRenderer } from '@delight-rpc/electron'
 window.addEventListener('message', async event => {
   if (event.data === 'message-port') {
     const [port] = event.ports
-    port.start()
     createClientInRenderer<IAPI>(port)
     await client.echo('hello world')
   }
