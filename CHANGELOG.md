@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/delight-rpc/electron/compare/v0.1.0...v0.1.1) (2021-11-13)
+
+
+### Features
+
+* no need to manually call `port.start()` now ([70e25c0](https://github.com/delight-rpc/electron/commit/70e25c0829f3dd8852e25c8ccd1944257e2b9ac5))
+
 ## 0.1.0 (2021-11-13)
 
 
