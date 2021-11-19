@@ -185,14 +185,14 @@ window.ready()
 ```ts
 function createClientInMain<IAPI extends object>(
   port: Electron.MessagePortMain
-): [client: DelightRPC.RequestProxy<IAPI>, close: () => void]
+): [client: DelightRPC.ClientProxy<IAPI>, close: () => void]
 ```
 
 ### createClientInRenderer
 ```ts
 function createClientInRenderer<IAPI extends object>(
   port: MessagePort
-): [client: DelightRPC.RequestProxy<IAPI>, close: () => void]
+): [client: DelightRPC.ClientProxy<IAPI>, close: () => void]
 ```
 
 ### createServerInMain

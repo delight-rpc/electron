@@ -1,27 +1,25 @@
 import * as DelightRPC from 'delight-rpc'
-import { isJsonRpcSuccess, isJsonRpcError } from '@blackglory/types'
 import { Deferred } from 'extra-promise'
-import { JsonRpcResponse } from 'justypes'
 import Electron from 'electron'
 import { CustomError } from '@blackglory/errors'
 
 export function createClientInMain<IAPI extends object>(
   port: Electron.MessagePortMain
-): [client: DelightRPC.RequestProxy<IAPI>, close: () => void] {
-  const pendings: { [id: string]: Deferred<JsonRpcResponse<any>> } = {}
+): [client: DelightRPC.ClientProxy<IAPI>, close: () => void] {
+  const pendings: { [id: string]: Deferred<DelightRPC.IResponse<any>> } = {}
 
   port.addListener('message', handler)
   port.start()
 
   const client = DelightRPC.createClient<IAPI>(
-    async function request(jsonRpc) {
-      const res = new Deferred<JsonRpcResponse<any>>()
-      pendings[jsonRpc.id] = res
+    async function send(request) {
+      const res = new Deferred<DelightRPC.IResponse<any>>()
+      pendings[request.id] = res
       try {
-        port.postMessage(jsonRpc)
+        port.postMessage(request)
         return await res
       } finally {
-        delete pendings[jsonRpc.id]
+        delete pendings[request.id]
       }
     }
   )
@@ -40,9 +38,9 @@ export function createClientInMain<IAPI extends object>(
 
   function handler(event: Electron.MessageEvent): void {
     const res = event.data
-    if (isJsonRpcSuccess(res)) {
+    if (DelightRPC.isResult(res)) {
       pendings[res.id].resolve(res)
-    } else if (isJsonRpcError(res)) {
+    } else if (DelightRPC.isError(res)) {
       pendings[res.id].reject(res)
     }
   }
@@ -50,21 +48,21 @@ export function createClientInMain<IAPI extends object>(
 
 export function createClientInRenderer<IAPI extends object>(
   port: MessagePort
-): [client: DelightRPC.RequestProxy<IAPI>, close: () => void] {
-  const pendings: { [id: string]: Deferred<JsonRpcResponse<any>> } = {}
+): [client: DelightRPC.ClientProxy<IAPI>, close: () => void] {
+  const pendings: { [id: string]: Deferred<DelightRPC.IResponse<any>> } = {}
 
   port.addEventListener('message', handler)
   port.start()
 
   const client = DelightRPC.createClient<IAPI>(
-    async function request(jsonRpc) {
-      const res = new Deferred<JsonRpcResponse<any>>()
-      pendings[jsonRpc.id] = res
+    async function send(request) {
+      const res = new Deferred<DelightRPC.IResponse<any>>()
+      pendings[request.id] = res
       try {
-        port.postMessage(jsonRpc)
+        port.postMessage(request)
         return await res
       } finally {
-        delete pendings[jsonRpc.id]
+        delete pendings[request.id]
       }
     }
   )
@@ -83,9 +81,9 @@ export function createClientInRenderer<IAPI extends object>(
 
   function handler(event: MessageEvent): void {
     const res = event.data
-    if (isJsonRpcSuccess(res)) {
+    if (DelightRPC.isResult(res)) {
       pendings[res.id].resolve(res)
-    } else if (isJsonRpcError(res)) {
+    } else if (DelightRPC.isError(res)) {
       pendings[res.id].reject(res)
     }
   }
