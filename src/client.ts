@@ -9,7 +9,6 @@ export function createClientInMain<IAPI extends object>(
   const pendings: { [id: string]: Deferred<DelightRPC.IResponse<any>> } = {}
 
   port.addListener('message', handler)
-  port.start()
 
   const client = DelightRPC.createClient<IAPI>(
     async function send(request) {
@@ -28,7 +27,6 @@ export function createClientInMain<IAPI extends object>(
 
   function close(): void {
     port.removeListener('message', handler)
-    port.close()
 
     for (const [key, deferred] of Object.entries(pendings)) {
       deferred.reject(new ClientClosed())
@@ -52,7 +50,6 @@ export function createClientInRenderer<IAPI extends object>(
   const pendings: { [id: string]: Deferred<DelightRPC.IResponse<any>> } = {}
 
   port.addEventListener('message', handler)
-  port.start()
 
   const client = DelightRPC.createClient<IAPI>(
     async function send(request) {
@@ -71,7 +68,6 @@ export function createClientInRenderer<IAPI extends object>(
 
   function close(): void {
     port.removeEventListener('message', handler)
-    port.close()
 
     for (const [key, deferred] of Object.entries(pendings)) {
       deferred.reject(new ClientClosed())

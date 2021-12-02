@@ -6,11 +6,7 @@ export function createServerInMain<IAPI extends object>(
 , port: Electron.MessagePortMain
 ): () => void {
   port.addListener('message', handler)
-  port.start()
-  return () => {
-    port.removeListener('message', handler)
-    port.close()
-  }
+  return () => port.removeListener('message', handler)
 
   async function handler(event: Electron.MessageEvent): Promise<void> {
     const req = event.data
@@ -27,11 +23,7 @@ export function createServerInRenderer<IAPI extends object>(
 , port: MessagePort
 ): () => void {
   port.addEventListener('message', handler)
-  port.start()
-  return () => {
-    port.removeEventListener('message', handler)
-    port.close()
-  }
+  return () => port.removeEventListener('message', handler)
 
   async function handler(event: MessageEvent): Promise<void> {
     const req = event.data
