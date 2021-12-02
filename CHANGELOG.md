@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/delight-rpc/electron/compare/v1.0.0...v1.1.0) (2021-12-02)
+
+
+### Features
+
+* stop starting and closing MessagePort ([22d509a](https://github.com/delight-rpc/electron/commit/22d509ace6e3ffbdf4f99a8269f9cfd712f410cb))
+
 ## [1.0.0](https://github.com/delight-rpc/electron/compare/v0.2.1...v1.0.0) (2021-11-19)
 
 
