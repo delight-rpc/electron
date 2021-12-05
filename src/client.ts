@@ -36,10 +36,8 @@ export function createClientInMain<IAPI extends object>(
 
   function handler(event: Electron.MessageEvent): void {
     const res = event.data
-    if (DelightRPC.isResult(res)) {
+    if (DelightRPC.isResult(res) || DelightRPC.isError(res)) {
       pendings[res.id].resolve(res)
-    } else if (DelightRPC.isError(res)) {
-      pendings[res.id].reject(res)
     }
   }
 }
@@ -77,10 +75,8 @@ export function createClientInRenderer<IAPI extends object>(
 
   function handler(event: MessageEvent): void {
     const res = event.data
-    if (DelightRPC.isResult(res)) {
+    if (DelightRPC.isResult(res) || DelightRPC.isError(res)) {
       pendings[res.id].resolve(res)
-    } else if (DelightRPC.isError(res)) {
-      pendings[res.id].reject(res)
     }
   }
 }
