@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/delight-rpc/electron/compare/v1.1.1...v2.0.0) (2021-12-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* - The minimum version is Node.js v16
+
+* upgrade dependencies ([7689c52](https://github.com/delight-rpc/electron/commit/7689c526839b9c890b99dbdf84e43e925b0bb9ce))
+
 ### [1.1.1](https://github.com/delight-rpc/electron/compare/v1.1.0...v1.1.1) (2021-12-05)
 
 
