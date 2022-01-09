@@ -212,7 +212,7 @@ function createClientInRenderer<IAPI extends object>(
 ### createServerInMain
 ```ts
 function createServerInMain<IAPI extends object>(
-  api: IAPI
+  api: DelightRPC.ImplementationOf<IAPI>
 , port: Electron.MessagePortMain
 , parameterValidators?: DelightRPC.ParameterValidators<IAPI>
 ): () => void
@@ -221,7 +221,7 @@ function createServerInMain<IAPI extends object>(
 ### createServerInRenderer
 ```ts
 function createServerInRenderer<IAPI extends object>(
-  api: IAPI
+  api: DelightRPC.ImplementationOf<IAPI>
 , port: MessagePort
 , parameterValidators?: DelightRPC.ParameterValidators<IAPI>
 ): () => void
