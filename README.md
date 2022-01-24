@@ -198,6 +198,7 @@ window.ready()
 function createClientInMain<IAPI extends object>(
   port: Electron.MessagePortMain
 , parameterValidators?: DelightRPC.ParameterValidators<IAPI>
+, expectedVersion?: `${number}.${number}.${number}`
 ): [client: DelightRPC.ClientProxy<IAPI>, close: () => void]
 ```
 
@@ -206,6 +207,7 @@ function createClientInMain<IAPI extends object>(
 function createClientInRenderer<IAPI extends object>(
   port: MessagePort
 , parameterValidators?: DelightRPC.ParameterValidators<IAPI>
+, expectedVersion?: `${number}.${number}.${number}`
 ): [client: DelightRPC.ClientProxy<IAPI>, close: () => void]
 ```
 
@@ -215,6 +217,7 @@ function createServerInMain<IAPI extends object>(
   api: DelightRPC.ImplementationOf<IAPI>
 , port: Electron.MessagePortMain
 , parameterValidators?: DelightRPC.ParameterValidators<IAPI>
+, version?: `${number}.${number}.${number}`
 ): () => void
 ```
 
@@ -224,5 +227,6 @@ function createServerInRenderer<IAPI extends object>(
   api: DelightRPC.ImplementationOf<IAPI>
 , port: MessagePort
 , parameterValidators?: DelightRPC.ParameterValidators<IAPI>
+, version?: `${number}.${number}.${number}`
 ): () => void
 ```

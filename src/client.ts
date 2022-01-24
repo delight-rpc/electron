@@ -6,6 +6,7 @@ import { CustomError } from '@blackglory/errors'
 export function createClientInMain<IAPI extends object>(
   port: Electron.MessagePortMain
 , parameterValidators?: DelightRPC.ParameterValidators<IAPI>
+, expectedVersion?: `${number}.${number}.${number}`
 ): [client: DelightRPC.ClientProxy<IAPI>, close: () => void] {
   const pendings: { [id: string]: Deferred<DelightRPC.IResponse<any>> } = {}
 
@@ -23,6 +24,7 @@ export function createClientInMain<IAPI extends object>(
       }
     }
   , parameterValidators
+  , expectedVersion
   )
 
   return [client, close]
@@ -47,6 +49,7 @@ export function createClientInMain<IAPI extends object>(
 export function createClientInRenderer<IAPI extends object>(
   port: MessagePort
 , parameterValidators?: DelightRPC.ParameterValidators<IAPI>
+, expectedVersion?: `${number}.${number}.${number}`
 ): [client: DelightRPC.ClientProxy<IAPI>, close: () => void] {
   const pendings: { [id: string]: Deferred<DelightRPC.IResponse<any>> } = {}
 
@@ -64,6 +67,7 @@ export function createClientInRenderer<IAPI extends object>(
       }
     }
   , parameterValidators
+  , expectedVersion
   )
 
   return [client, close]

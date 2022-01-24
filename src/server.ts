@@ -5,6 +5,7 @@ export function createServerInMain<IAPI extends object>(
   api: DelightRPC.ImplementationOf<IAPI>
 , port: Electron.MessagePortMain
 , parameterValidators?: DelightRPC.ParameterValidators<IAPI>
+, version?: `${number}.${number}.${number}`
 ): () => void {
   port.addListener('message', handler)
   return () => port.removeListener('message', handler)
@@ -12,7 +13,12 @@ export function createServerInMain<IAPI extends object>(
   async function handler(event: Electron.MessageEvent): Promise<void> {
     const req = event.data
     if (DelightRPC.isRequest(req)) {
-      const result = await DelightRPC.createResponse(api, req, parameterValidators)
+      const result = await DelightRPC.createResponse(
+        api
+      , req
+      , parameterValidators
+      , version
+      )
 
       port.postMessage(result)
     }
@@ -23,6 +29,7 @@ export function createServerInRenderer<IAPI extends object>(
   api: DelightRPC.ImplementationOf<IAPI>
 , port: MessagePort
 , parameterValidators?: DelightRPC.ParameterValidators<IAPI>
+, version?: `${number}.${number}.${number}`
 ): () => void {
   port.addEventListener('message', handler)
   return () => port.removeEventListener('message', handler)
@@ -30,7 +37,12 @@ export function createServerInRenderer<IAPI extends object>(
   async function handler(event: MessageEvent): Promise<void> {
     const req = event.data
     if (DelightRPC.isRequest(req)) {
-      const result = await DelightRPC.createResponse(api, req, parameterValidators)
+      const result = await DelightRPC.createResponse(
+        api
+      , req
+      , parameterValidators
+      , version
+      )
 
       port.postMessage(result)
     }
