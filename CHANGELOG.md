@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/delight-rpc/electron/compare/v2.2.0...v3.0.0) (2022-02-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* use delight-rpc ^2.0.0
+
+* upgrade dependencies ([40e5101](https://github.com/delight-rpc/electron/commit/40e5101d11d69071f6e95cb899377da0abff73bd))
+
 ## [2.2.0](https://github.com/delight-rpc/electron/compare/v2.1.1...v2.2.0) (2022-01-24)
 
 
