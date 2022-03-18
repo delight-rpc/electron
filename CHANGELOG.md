@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/delight-rpc/electron/compare/v3.0.0...v3.1.0) (2022-03-18)
+
+
+### Features
+
+* add createBatchClientInMain, createBatchClientInRenderer ([0fa7357](https://github.com/delight-rpc/electron/commit/0fa73571cf9fd6b7d2b5ebad7d92685c4d487804))
+
 ## [3.0.0](https://github.com/delight-rpc/electron/compare/v2.2.0...v3.0.0) (2022-02-10)
 
 
