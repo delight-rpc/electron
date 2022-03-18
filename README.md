@@ -211,6 +211,22 @@ function createClientInRenderer<IAPI extends object>(
 ): [client: DelightRPC.ClientProxy<IAPI>, close: () => void]
 ```
 
+### createBatchClientInMain
+```ts
+function createBatchClientInMain(
+  port: Electron.MessagePortMain
+, expectedVersion?: `${number}.${number}.${number}`
+): [client: DelightRPC.BatchClient, close: () => void]
+```
+
+### createBatchClientInRenderer
+```ts
+function createBatchClientInRenderer(
+  port: MessagePort
+, expectedVersion?: `${number}.${number}.${number}`
+): [client: DelightRPC.BatchClient, close: () => void]
+```
+
 ### createServerInMain
 ```ts
 function createServerInMain<IAPI extends object>(
