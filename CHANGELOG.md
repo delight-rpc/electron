@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.1](https://github.com/delight-rpc/electron/compare/v3.1.0...v3.1.1) (2022-04-04)
+
+
+### Bug Fixes
+
+* createServer for batch requests ([c58a4cd](https://github.com/delight-rpc/electron/commit/c58a4cda88a7d709255e300771cf4c130f4d29ed))
+
 ## [3.1.0](https://github.com/delight-rpc/electron/compare/v3.0.0...v3.1.0) (2022-03-18)
 
 
