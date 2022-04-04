@@ -12,7 +12,7 @@ export function createServerInMain<IAPI extends object>(
 
   async function handler(event: Electron.MessageEvent): Promise<void> {
     const req = event.data
-    if (DelightRPC.isRequest(req)) {
+    if (DelightRPC.isRequest(req) || DelightRPC.isBatchRequest(req)) {
       const result = await DelightRPC.createResponse(
         api
       , req
@@ -36,7 +36,7 @@ export function createServerInRenderer<IAPI extends object>(
 
   async function handler(event: MessageEvent): Promise<void> {
     const req = event.data
-    if (DelightRPC.isRequest(req)) {
+    if (DelightRPC.isRequest(req) || DelightRPC.isBatchRequest(req)) {
       const result = await DelightRPC.createResponse(
         api
       , req
