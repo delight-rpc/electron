@@ -197,8 +197,11 @@ window.ready()
 ```ts
 function createClientInMain<IAPI extends object>(
   port: Electron.MessagePortMain
-, parameterValidators?: DelightRPC.ParameterValidators<IAPI>
-, expectedVersion?: `${number}.${number}.${number}`
+, options?: {
+    parameterValidators?: DelightRPC.ParameterValidators<IAPI>
+    expectedVersion?: `${number}.${number}.${number}`
+    channel?: string
+  }
 ): [client: DelightRPC.ClientProxy<IAPI>, close: () => void]
 ```
 
@@ -206,8 +209,11 @@ function createClientInMain<IAPI extends object>(
 ```ts
 function createClientInRenderer<IAPI extends object>(
   port: MessagePort
-, parameterValidators?: DelightRPC.ParameterValidators<IAPI>
-, expectedVersion?: `${number}.${number}.${number}`
+, options?: {
+    parameterValidators?: DelightRPC.ParameterValidators<IAPI>
+    expectedVersion?: `${number}.${number}.${number}`
+    channel?: string
+  }
 ): [client: DelightRPC.ClientProxy<IAPI>, close: () => void]
 ```
 
@@ -215,7 +221,10 @@ function createClientInRenderer<IAPI extends object>(
 ```ts
 function createBatchClientInMain(
   port: Electron.MessagePortMain
-, expectedVersion?: `${number}.${number}.${number}`
+, options?: {
+    expectedVersion?: `${number}.${number}.${number}`
+    channel?: string
+  }
 ): [client: DelightRPC.BatchClient, close: () => void]
 ```
 
@@ -223,7 +232,10 @@ function createBatchClientInMain(
 ```ts
 function createBatchClientInRenderer(
   port: MessagePort
-, expectedVersion?: `${number}.${number}.${number}`
+, options?: {
+    expectedVersion?: `${number}.${number}.${number}`
+    channel?: string
+  }
 ): [client: DelightRPC.BatchClient, close: () => void]
 ```
 
@@ -231,9 +243,12 @@ function createBatchClientInRenderer(
 ```ts
 function createServerInMain<IAPI extends object>(
   api: DelightRPC.ImplementationOf<IAPI>
-, port: Electron.MessagePortMain
-, parameterValidators?: DelightRPC.ParameterValidators<IAPI>
-, version?: `${number}.${number}.${number}`
+, options?: {
+    port: Electron.MessagePortMain
+    parameterValidators?: DelightRPC.ParameterValidators<IAPI>
+    version?: `${number}.${number}.${number}`
+    channel?: string
+  }
 ): () => void
 ```
 
@@ -242,7 +257,10 @@ function createServerInMain<IAPI extends object>(
 function createServerInRenderer<IAPI extends object>(
   api: DelightRPC.ImplementationOf<IAPI>
 , port: MessagePort
-, parameterValidators?: DelightRPC.ParameterValidators<IAPI>
-, version?: `${number}.${number}.${number}`
+, options?: {
+    parameterValidators?: DelightRPC.ParameterValidators<IAPI>
+    version?: `${number}.${number}.${number}`
+    channel?: string
+  }
 ): () => void
 ```
