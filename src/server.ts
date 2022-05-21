@@ -5,10 +5,11 @@ import { isntNull } from '@blackglory/prelude'
 export function createServerInMain<IAPI extends object>(
   api: DelightRPC.ImplementationOf<IAPI>
 , port: Electron.MessagePortMain
-, { parameterValidators, version, channel }: {
+, { parameterValidators, version, channel, ownPropsOnly }: {
     parameterValidators?: DelightRPC.ParameterValidators<IAPI>
     version?: `${number}.${number}.${number}`
     channel?: string
+    ownPropsOnly?: boolean
   } = {}
 ): () => void {
   port.addListener('message', handler)
@@ -24,6 +25,7 @@ export function createServerInMain<IAPI extends object>(
           parameterValidators
         , version
         , channel
+        , ownPropsOnly
         }
       )
 
@@ -37,10 +39,11 @@ export function createServerInMain<IAPI extends object>(
 export function createServerInRenderer<IAPI extends object>(
   api: DelightRPC.ImplementationOf<IAPI>
 , port: MessagePort
-, { parameterValidators, version, channel }: {
+, { parameterValidators, version, channel, ownPropsOnly }: {
     parameterValidators?: DelightRPC.ParameterValidators<IAPI>
     version?: `${number}.${number}.${number}`
     channel?: string
+    ownPropsOnly?: boolean
   } = {}
 ): () => void {
   port.addEventListener('message', handler)
@@ -56,6 +59,7 @@ export function createServerInRenderer<IAPI extends object>(
           parameterValidators
         , version
         , channel
+        , ownPropsOnly
         }
       )
 
