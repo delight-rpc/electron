@@ -8,7 +8,7 @@ export function createServerInMain<IAPI extends object>(
 , { parameterValidators, version, channel, ownPropsOnly }: {
     parameterValidators?: DelightRPC.ParameterValidators<IAPI>
     version?: `${number}.${number}.${number}`
-    channel?: string
+    channel?: string | RegExp | typeof DelightRPC.AnyChannel
     ownPropsOnly?: boolean
   } = {}
 ): () => void {
@@ -42,7 +42,7 @@ export function createServerInRenderer<IAPI extends object>(
 , { parameterValidators, version, channel, ownPropsOnly }: {
     parameterValidators?: DelightRPC.ParameterValidators<IAPI>
     version?: `${number}.${number}.${number}`
-    channel?: string
+    channel?: string | RegExp | typeof DelightRPC.AnyChannel
     ownPropsOnly?: boolean
   } = {}
 ): () => void {

@@ -247,7 +247,7 @@ function createServerInMain<IAPI extends object>(
     port: Electron.MessagePortMain
     parameterValidators?: DelightRPC.ParameterValidators<IAPI>
     version?: `${number}.${number}.${number}`
-    channel?: string
+    channel?: string | RegExp | AnyChannel
     ownPropsOnly?: boolean
   }
 ): () => void
@@ -261,7 +261,7 @@ function createServerInRenderer<IAPI extends object>(
 , options?: {
     parameterValidators?: DelightRPC.ParameterValidators<IAPI>
     version?: `${number}.${number}.${number}`
-    channel?: string
+    channel?: string | RegExp | AnyChannel
     ownPropsOnly?: boolean
   }
 ): () => void
