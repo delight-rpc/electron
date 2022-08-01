@@ -11,6 +11,7 @@
   "repository": "git@github.com:delight-rpc/electron.git",
   "author": "BlackGlory <woshenmedoubuzhidao@blackglory.me>",
   "license": "MIT",
+  "sideEffects": false,
   "scripts": {
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --quiet src",
     "test": "jest --no-cache --config jest.config.js",
