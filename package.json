@@ -38,6 +38,7 @@
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
     "cross-env": "^7.0.3",
+    "delight-rpc": "^4.2.1",
     "electron": "^16.0.7",
     "eslint": "8.18.0",
     "husky": "4",
@@ -53,10 +54,10 @@
     "@blackglory/errors": "^2.2.1",
     "@blackglory/prelude": "^0.1.2",
     "@delight-rpc/protocol": "^2.2.0",
-    "delight-rpc": "^4.2.4",
     "extra-promise": "^2.2.0"
   },
   "peerDependencies": {
+    "delight-rpc": "^4.2.1",
     "electron": "^16.0.1"
   }
 }
