@@ -8,7 +8,7 @@ export function createClientInMain<IAPI extends object>(
   port: Electron.MessagePortMain
 , { parameterValidators, expectedVersion, channel }: {
     parameterValidators?: DelightRPC.ParameterValidators<IAPI>
-  , expectedVersion?: `${number}.${number}.${number}`
+  , expectedVersion?: string
   , channel?: string
   } = {}
 ): [client: DelightRPC.ClientProxy<IAPI>, close: () => void] {
@@ -57,7 +57,7 @@ export function createClientInRenderer<IAPI extends object>(
   port: MessagePort
 , { parameterValidators, expectedVersion, channel }: {
     parameterValidators?: DelightRPC.ParameterValidators<IAPI>
-    expectedVersion?: `${number}.${number}.${number}`
+    expectedVersion?: string
     channel?: string
   } = {}
 ): [client: DelightRPC.ClientProxy<IAPI>, close: () => void] {
@@ -105,7 +105,7 @@ export function createClientInRenderer<IAPI extends object>(
 export function createBatchClientInMain(
   port: Electron.MessagePortMain
 , { expectedVersion, channel }: {
-    expectedVersion?: `${number}.${number}.${number}`
+    expectedVersion?: string
     channel?: string
   } = {}
 ): [client: DelightRPC.BatchClient, close: () => void] {
@@ -160,7 +160,7 @@ export function createBatchClientInMain(
 export function createBatchClientInRenderer(
   port: MessagePort
 , { expectedVersion, channel }: {
-    expectedVersion?: `${number}.${number}.${number}`
+    expectedVersion?: string
     channel?: string
   } = {}
 ): [client: DelightRPC.BatchClient, close: () => void] {

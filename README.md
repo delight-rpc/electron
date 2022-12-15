@@ -199,7 +199,7 @@ function createClientInMain<IAPI extends object>(
   port: Electron.MessagePortMain
 , options?: {
     parameterValidators?: DelightRPC.ParameterValidators<IAPI>
-    expectedVersion?: `${number}.${number}.${number}`
+    expectedVersion?: string
     channel?: string
   }
 ): [client: DelightRPC.ClientProxy<IAPI>, close: () => void]
@@ -211,7 +211,7 @@ function createClientInRenderer<IAPI extends object>(
   port: MessagePort
 , options?: {
     parameterValidators?: DelightRPC.ParameterValidators<IAPI>
-    expectedVersion?: `${number}.${number}.${number}`
+    expectedVersion?: string
     channel?: string
   }
 ): [client: DelightRPC.ClientProxy<IAPI>, close: () => void]
@@ -222,7 +222,7 @@ function createClientInRenderer<IAPI extends object>(
 function createBatchClientInMain(
   port: Electron.MessagePortMain
 , options?: {
-    expectedVersion?: `${number}.${number}.${number}`
+    expectedVersion?: string
     channel?: string
   }
 ): [client: DelightRPC.BatchClient, close: () => void]
@@ -233,7 +233,7 @@ function createBatchClientInMain(
 function createBatchClientInRenderer(
   port: MessagePort
 , options?: {
-    expectedVersion?: `${number}.${number}.${number}`
+    expectedVersion?: string
     channel?: string
   }
 ): [client: DelightRPC.BatchClient, close: () => void]
