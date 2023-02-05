@@ -12,7 +12,7 @@ export function createClientInMain<IAPI extends object>(
   , channel?: string
   } = {}
 ): [client: DelightRPC.ClientProxy<IAPI>, close: () => void] {
-  const pendings: { [id: string]: Deferred<IResponse<unknown>> } = {}
+  const pendings: Record<string, Deferred<IResponse<unknown>> | undefined> = {}
 
   port.addListener('message', handler)
 
@@ -40,7 +40,7 @@ export function createClientInMain<IAPI extends object>(
     port.removeListener('message', handler)
 
     for (const [key, deferred] of Object.entries(pendings)) {
-      deferred.reject(new ClientClosed())
+      deferred!.reject(new ClientClosed())
       delete pendings[key]
     }
   }
@@ -48,7 +48,7 @@ export function createClientInMain<IAPI extends object>(
   function handler(event: Electron.MessageEvent): void {
     const res = event.data
     if (DelightRPC.isResult(res) || DelightRPC.isError(res)) {
-      pendings[res.id].resolve(res)
+      pendings[res.id]?.resolve(res)
     }
   }
 }
@@ -61,7 +61,11 @@ export function createClientInRenderer<IAPI extends object>(
     channel?: string
   } = {}
 ): [client: DelightRPC.ClientProxy<IAPI>, close: () => void] {
-  const pendings: { [id: string]: Deferred<IResponse<unknown>> } = {}
+  const pendings: Record<
+    string
+  , | Deferred<IResponse<unknown>>
+    | undefined
+  > = {}
 
   port.addEventListener('message', handler)
 
@@ -89,7 +93,7 @@ export function createClientInRenderer<IAPI extends object>(
     port.removeEventListener('message', handler)
 
     for (const [key, deferred] of Object.entries(pendings)) {
-      deferred.reject(new ClientClosed())
+      deferred!.reject(new ClientClosed())
       delete pendings[key]
     }
   }
@@ -97,7 +101,7 @@ export function createClientInRenderer<IAPI extends object>(
   function handler(event: MessageEvent): void {
     const res = event.data
     if (DelightRPC.isResult(res) || DelightRPC.isError(res)) {
-      pendings[res.id].resolve(res)
+      pendings[res.id]?.resolve(res)
     }
   }
 }
@@ -109,12 +113,11 @@ export function createBatchClientInMain(
     channel?: string
   } = {}
 ): [client: DelightRPC.BatchClient, close: () => void] {
-  const pendings: {
-    [id: string]: Deferred<
-    | IError
-    | IBatchResponse<unknown>
-    >
-  } = {}
+  const pendings: Record<
+    string
+  , | Deferred<IError | IBatchResponse<unknown>>
+    | undefined
+  > = {}
 
   port.addListener('message', handler)
 
@@ -144,7 +147,7 @@ export function createBatchClientInMain(
     port.removeListener('message', handler)
 
     for (const [key, deferred] of Object.entries(pendings)) {
-      deferred.reject(new ClientClosed())
+      deferred!.reject(new ClientClosed())
       delete pendings[key]
     }
   }
@@ -152,7 +155,7 @@ export function createBatchClientInMain(
   function handler(event: Electron.MessageEvent): void {
     const res = event.data
     if (DelightRPC.isError(res) || DelightRPC.isBatchResponse(res)) {
-      pendings[res.id].resolve(res)
+      pendings[res.id]?.resolve(res)
     }
   }
 }
@@ -164,12 +167,11 @@ export function createBatchClientInRenderer(
     channel?: string
   } = {}
 ): [client: DelightRPC.BatchClient, close: () => void] {
-  const pendings: {
-    [id: string]: Deferred<
-    | IError
-    | IBatchResponse<unknown>
-    >
-  } = {}
+  const pendings: Record<
+    string
+  , | Deferred<IError | IBatchResponse<unknown>>
+    | undefined
+  > = {}
 
   port.addEventListener('message', handler)
 
@@ -199,7 +201,7 @@ export function createBatchClientInRenderer(
     port.removeEventListener('message', handler)
 
     for (const [key, deferred] of Object.entries(pendings)) {
-      deferred.reject(new ClientClosed())
+      deferred!.reject(new ClientClosed())
       delete pendings[key]
     }
   }
@@ -207,7 +209,7 @@ export function createBatchClientInRenderer(
   function handler(event: MessageEvent): void {
     const res = event.data
     if (DelightRPC.isError(res) || DelightRPC.isBatchResponse(res)) {
-      pendings[res.id].resolve(res)
+      pendings[res.id]?.resolve(res)
     }
   }
 }
