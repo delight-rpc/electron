@@ -106,13 +106,13 @@ export function createClientInRenderer<IAPI extends object>(
   }
 }
 
-export function createBatchClientInMain(
+export function createBatchClientInMain<DataType>(
   port: Electron.MessagePortMain
 , { expectedVersion, channel }: {
     expectedVersion?: string
     channel?: string
   } = {}
-): [client: DelightRPC.BatchClient, close: () => void] {
+): [client: DelightRPC.BatchClient<DataType>, close: () => void] {
   const pendings: Record<
     string
   , | Deferred<IError | IBatchResponse<unknown>>
@@ -160,13 +160,13 @@ export function createBatchClientInMain(
   }
 }
 
-export function createBatchClientInRenderer(
+export function createBatchClientInRenderer<DataType>(
   port: MessagePort
 , { expectedVersion, channel }: {
     expectedVersion?: string
     channel?: string
   } = {}
-): [client: DelightRPC.BatchClient, close: () => void] {
+): [client: DelightRPC.BatchClient<DataType>, close: () => void] {
   const pendings: Record<
     string
   , | Deferred<IError | IBatchResponse<unknown>>

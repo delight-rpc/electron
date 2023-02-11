@@ -219,24 +219,24 @@ function createClientInRenderer<IAPI extends object>(
 
 ### createBatchClientInMain
 ```ts
-function createBatchClientInMain(
+function createBatchClientInMain<DataType>(
   port: Electron.MessagePortMain
 , options?: {
     expectedVersion?: string
     channel?: string
   }
-): [client: DelightRPC.BatchClient, close: () => void]
+): [client: DelightRPC.BatchClient<DataType>, close: () => void]
 ```
 
 ### createBatchClientInRenderer
 ```ts
-function createBatchClientInRenderer(
+function createBatchClientInRenderer<DataType>(
   port: MessagePort
 , options?: {
     expectedVersion?: string
     channel?: string
   }
-): [client: DelightRPC.BatchClient, close: () => void]
+): [client: DelightRPC.BatchClient<DataType>, close: () => void]
 ```
 
 ### createServerInMain
