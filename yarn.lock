@@ -592,6 +592,14 @@
     "@blackglory/errors" "^2.4.3"
     "@blackglory/prelude" "^0.2.2"
 
+"@delight-rpc/protocol@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@delight-rpc/protocol/-/protocol-4.0.0.tgz#184705600fc8ce68807c3a1c06e8bb3a918bf0ee"
+  integrity sha512-A5FisLKLPrMsu+IgApd57fWH96RfZTY9zR6IMItk+hobs9K6FDa1KeaRCny9gbwqq7MZJ34BbXpk1NDYSKEmnw==
+  dependencies:
+    "@blackglory/errors" "^3.0.0"
+    "@blackglory/prelude" "^0.3.1"
+
 "@electron/get@^1.13.0":
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/@electron/get/-/get-1.14.1.tgz#16ba75f02dffb74c23965e72d617adc721d27f40"

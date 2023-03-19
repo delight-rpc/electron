@@ -59,7 +59,7 @@
   "dependencies": {
     "@blackglory/errors": "^3.0.0",
     "@blackglory/prelude": "^0.3.1",
-    "@delight-rpc/protocol": "^3.0.0",
+    "@delight-rpc/protocol": "^4.0.0",
     "extra-promise": "^6.0.5"
   },
   "peerDependencies": {
