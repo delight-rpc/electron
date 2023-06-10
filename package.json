@@ -4,7 +4,8 @@
   "description": "",
   "keywords": [],
   "files": [
-    "lib"
+    "lib",
+    "src"
   ],
   "type": "module",
   "main": "lib/index.js",
