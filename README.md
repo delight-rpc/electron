@@ -8,13 +8,15 @@ yarn add @delight-rpc/electron
 
 ## Usage
 ### Main as Client, Renderer as Server
+#### api.d.ts
 ```ts
-// api.d.ts
 interface IAPI {
   echo(message: string): string
 }
+```
 
-// main.js
+#### main.js
+```ts
 import { app, ipcMain } from 'electron'
 import { createClientInMain } from '@delight-rpc/electron'
 
@@ -32,8 +34,10 @@ const window = new BrowserWindow({
   webPreferences: { preload: 'preload.js' }
 })
 window.loadFile('renderer.html')
+```
 
-// preload.js
+#### preload.js
+```ts
 import { ipcRenderer } from 'electron'
 
 window.addEventListener('message', event => {
@@ -42,8 +46,10 @@ window.addEventListener('message', event => {
     ipcRenderer.postMessage('message-port', null, [port])
   }
 })
+```
 
-// renderer.js
+#### renderer.js
+```ts
 import { createServerInRenderer } from '@delight-rpc/electron'
 
 const api: IAPI = {
@@ -62,13 +68,15 @@ window.postMessage('message-port', '*', [channel.port2])
 ```
 
 ### Renderer as Client, Main as Server
+#### api.d.ts
 ```ts
-// api.d.ts
 interface IAPI {
   echo(message: string): string
 }
+```
 
-// main.js
+#### main.js
+```ts
 import { app, ipcMain } from 'electron'
 import { createClientInMain } from '@delight-rpc/electron'
 
@@ -91,8 +99,10 @@ const window = new BrowserWindow({
   webPreferences: { preload: 'preload.js' }
 })
 window.loadFile('renderer.html')
+```
 
-// preload.js
+#### preload.js
+```ts
 import { ipcRenderer } from 'electron'
 
 window.addEventListener('message', event => {
@@ -101,8 +111,10 @@ window.addEventListener('message', event => {
     ipcRenderer.postMessage('message-port', null, [port])
   }
 })
+```
 
-// renderer.js
+#### renderer.js
+```ts
 import { createClientInRenderer } from '@delight-rpc/electron'
 
 // create the MessageChannel in the renderer,
@@ -116,13 +128,15 @@ await client.echo('hello world')
 ```
 
 ### Renderer as Client, Renderer as Server
+#### api.d.ts
 ```ts
-// api.d.ts
 interface IAPI {
   echo(message: string): string
 }
+```
 
-// main.js
+#### main.js
+```ts
 import { app, ipcMain, MessageChannelMain } from 'electron'
 
 await app.whenReady()
@@ -140,8 +154,10 @@ windowB.loadFile('renderer-b.html')
 const channel = new MessageChannelMain()
 windowA.webContents.postMessage('message-port', null, [channel.port1])
 windowB.webContents.postMessage('message-port', null, [channel.port2])
+```
 
-// preload.ts
+#### preload.ts
+```ts
 import { ipcRenderer, contextBridge } from 'electron'
 import { Deferred } from 'extra-promise'
 
@@ -155,8 +171,10 @@ ipcRenderer.on('message-port', event => {
   await ready
   window.postMessage('message-port', '*', [port])
 })
+```
 
-// renderer-a.js
+#### renderer-a.js
+```ts
 import { createServerInRenderer } from '@delight-rpc/electron'
 
 const api: IAPI = {
@@ -175,8 +193,10 @@ window.addEventListener('message', async event => {
 })
 
 window.ready()
+```
 
-// renderer-b.js
+#### renderer-b.js
+```ts
 import { createClientInRenderer } from '@delight-rpc/electron'
 
 window.addEventListener('message', async event => {
