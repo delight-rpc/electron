@@ -7,6 +7,10 @@ yarn add @delight-rpc/electron
 ```
 
 ## Usage
+If your application sends RPC requests immediately after creating the RPC client
+you need to create the RPC server as soon as possible,
+which means your corresponding code needs to be as **synchronized** as possible.
+
 ### Main as Client, Renderer as Server
 #### api.d.ts
 ```ts
