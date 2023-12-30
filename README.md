@@ -88,7 +88,7 @@ const api: IAPI = {
 
 await app.whenReady()
 
-ipcMain.on('message-port', async event => {
+ipcMain.on('message-port', event => {
   const [port] = event.ports
 
   port.start()
