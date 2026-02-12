@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [6.0.7](https://github.com/delight-rpc/electron/compare/v6.0.6...v6.0.7) (2026-02-12)
+
+
+### Bug Fixes
+
+* **client:** replace `Object.entries()` with `Map#entries()` ([2205745](https://github.com/delight-rpc/electron/commit/22057451cca8fc93891083ee3484c793abdb6a05))
+
 ### [6.0.6](https://github.com/delight-rpc/electron/compare/v6.0.5...v6.0.6) (2025-11-03)
 
 ### [6.0.5](https://github.com/delight-rpc/electron/compare/v6.0.4...v6.0.5) (2025-02-07)
