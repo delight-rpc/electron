@@ -19,7 +19,7 @@ interface IAPI {
 }
 ```
 
-#### main.js
+#### main.ts
 ```ts
 import { app, ipcMain } from 'electron'
 import { createClientInMain } from '@delight-rpc/electron'
@@ -40,7 +40,7 @@ const window = new BrowserWindow({
 window.loadFile('renderer.html')
 ```
 
-#### preload.js
+#### preload.ts
 ```ts
 import { ipcRenderer } from 'electron'
 
@@ -52,7 +52,7 @@ window.addEventListener('message', event => {
 })
 ```
 
-#### renderer.js
+#### renderer.ts
 ```ts
 import { createServerInRenderer } from '@delight-rpc/electron'
 
@@ -79,7 +79,7 @@ interface IAPI {
 }
 ```
 
-#### main.js
+#### main.ts
 ```ts
 import { app, ipcMain } from 'electron'
 import { createClientInMain } from '@delight-rpc/electron'
@@ -105,7 +105,7 @@ const window = new BrowserWindow({
 window.loadFile('renderer.html')
 ```
 
-#### preload.js
+#### preload.ts
 ```ts
 import { ipcRenderer } from 'electron'
 
@@ -117,7 +117,7 @@ window.addEventListener('message', event => {
 })
 ```
 
-#### renderer.js
+#### renderer.ts
 ```ts
 import { createClientInRenderer } from '@delight-rpc/electron'
 
@@ -139,7 +139,7 @@ interface IAPI {
 }
 ```
 
-#### main.js
+#### main.ts
 ```ts
 import { app, ipcMain, MessageChannelMain } from 'electron'
 
@@ -170,14 +170,14 @@ contextBridge.exposeInMainWorld('ready', () => {
   ready.resolve()
 })
 
-ipcRenderer.on('message-port', event => {
+ipcRenderer.on('message-port', async event => {
   const [port] = event.ports
   await ready
   window.postMessage('message-port', '*', [port])
 })
 ```
 
-#### renderer-a.js
+#### renderer-a.ts
 ```ts
 import { createServerInRenderer } from '@delight-rpc/electron'
 
@@ -199,7 +199,7 @@ window.addEventListener('message', async event => {
 window.ready()
 ```
 
-#### renderer-b.js
+#### renderer-b.ts
 ```ts
 import { createClientInRenderer } from '@delight-rpc/electron'
 
