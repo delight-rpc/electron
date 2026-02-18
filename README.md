@@ -121,6 +121,12 @@ window.addEventListener('message', event => {
 ```ts
 import { createClientInRenderer } from '@delight-rpc/electron'
 
+const api: IAPI = {
+  echo(message) {
+    return message
+  }
+}
+
 // create the MessageChannel in the renderer,
 // because its script file is always executed last.
 const channel = new MessageChannel()
