@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.0.0](https://github.com/delight-rpc/electron/compare/v6.0.7...v7.0.0) (2026-02-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* Node.js v16 => Node.js v22
+
+### Features
+
+* add support for `DelightRPC.Abort` and `delight-rpc@^7.0.0` ([303176c](https://github.com/delight-rpc/electron/commit/303176cca4993f238b09bb734eedc5f8f6708e14))
+
 ### [6.0.7](https://github.com/delight-rpc/electron/compare/v6.0.6...v6.0.7) (2026-02-12)
 
 
