@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.1](https://github.com/delight-rpc/electron/compare/v7.0.0...v7.0.1) (2026-02-26)
+
+
+### Bug Fixes
+
+* **client, sever:** destructors ([65690d1](https://github.com/delight-rpc/electron/commit/65690d154521e7c8ac99fc64cbd9681b387503fd))
+
 ## [7.0.0](https://github.com/delight-rpc/electron/compare/v6.0.7...v7.0.0) (2026-02-25)
 
 
