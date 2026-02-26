@@ -2,6 +2,7 @@ import * as DelightRPC from 'delight-rpc'
 import Electron from 'electron'
 import { isntNull } from '@blackglory/prelude'
 import { HashMap } from '@blackglory/structures'
+import { SyncDestructor } from 'extra-defer'
 
 export function createServerInMain<IAPI extends object>(
   api: DelightRPC.ImplementationOf<IAPI>
@@ -13,6 +14,8 @@ export function createServerInMain<IAPI extends object>(
     ownPropsOnly?: boolean
   } = {}
 ): () => void {
+  const destructor = new SyncDestructor()
+
   const channelIdToController: HashMap<
     {
       channel?: string
@@ -20,22 +23,36 @@ export function createServerInMain<IAPI extends object>(
     }
   , AbortController
   > = new HashMap(({ channel, id }) => JSON.stringify([channel, id]))
+  destructor.defer(abortAllPendings)
 
-  port.addListener('message', handler)
-  port.addListener('close', () => {
+  port.addListener('message', receive)
+  destructor.defer(() => port.removeListener('message', receive))
+
+  port.addListener('close', close)
+  destructor.defer(() => port.removeListener('close', close))
+
+  return close
+
+  function close(): void {
+    destructor.execute()
+  }
+
+  function abortAllPendings(): void {
     for (const controller of channelIdToController.values()) {
       controller.abort()
     }
 
     channelIdToController.clear()
-  })
-  return () => port.removeListener('message', handler)
+  }
 
-  async function handler(event: Electron.MessageEvent): Promise<void> {
+  async function receive(event: Electron.MessageEvent): Promise<void> {
     const message = event.data
     if (DelightRPC.isRequest(message) || DelightRPC.isBatchRequest(message)) {
+      const destructor = new SyncDestructor()
+
       const controller = new AbortController()
       channelIdToController.set(message, controller)
+      destructor.defer(() => channelIdToController.delete(message))
 
       try {
         const result = await DelightRPC.createResponse(
@@ -54,7 +71,7 @@ export function createServerInMain<IAPI extends object>(
           port.postMessage(result)
         }
       } finally {
-        channelIdToController.delete(message)
+        destructor.execute()
       }
     } else if (DelightRPC.isAbort(message)) {
       if (DelightRPC.matchChannel(message, channel)) {
@@ -75,6 +92,8 @@ export function createServerInRenderer<IAPI extends object>(
     ownPropsOnly?: boolean
   } = {}
 ): () => void {
+  const destructor = new SyncDestructor()
+
   const channelIdToController: HashMap<
     {
       channel?: string
@@ -82,15 +101,33 @@ export function createServerInRenderer<IAPI extends object>(
     }
   , AbortController
   > = new HashMap(({ channel, id }) => JSON.stringify([channel, id]))
+  destructor.defer(abortAllPendings)
 
-  port.addEventListener('message', handler)
-  return () => port.removeEventListener('message', handler)
+  port.addEventListener('message', receive)
+  destructor.defer(() => port.removeEventListener('message', receive))
 
-  async function handler(event: MessageEvent): Promise<void> {
+  return close
+
+  function close(): void {
+    destructor.execute()
+  }
+
+  function abortAllPendings(): void {
+    for (const controller of channelIdToController.values()) {
+      controller.abort()
+    }
+
+    channelIdToController.clear()
+  }
+
+  async function receive(event: MessageEvent): Promise<void> {
     const message = event.data
     if (DelightRPC.isRequest(message) || DelightRPC.isBatchRequest(message)) {
+      const destructor = new SyncDestructor()
+
       const controller = new AbortController()
       channelIdToController.set(message, controller)
+      destructor.defer(() => channelIdToController.delete(message))
 
       try {
         const result = await DelightRPC.createResponse(
@@ -109,7 +146,7 @@ export function createServerInRenderer<IAPI extends object>(
           port.postMessage(result)
         }
       } finally {
-        channelIdToController.delete(message)
+        destructor.execute()
       }
     } else if (DelightRPC.isAbort(message)) {
       if (DelightRPC.matchChannel(message, channel)) {
