@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.0.2](https://github.com/delight-rpc/electron/compare/v7.0.1...v7.0.2) (2026-02-26)
+
+
+### Bug Fixes
+
+* **create-client-in-renderer:** add the missing signal ([ff0d774](https://github.com/delight-rpc/electron/commit/ff0d774d0da4539de033074a01468caf208b1df2))
+
 ### [7.0.1](https://github.com/delight-rpc/electron/compare/v7.0.0...v7.0.1) (2026-02-26)
 
 
