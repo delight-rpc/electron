@@ -104,7 +104,7 @@ export function createClientInRenderer<IAPI extends object>(
   destructor.defer(() => port.addEventListener('message', receive))
 
   const client = DelightRPC.createClient<IAPI>(
-    async function send(request) {
+    async function send(request, signal) {
       const destructor = new SyncDestructor()
 
       const res = new Deferred<IResponse<unknown>>()
@@ -116,6 +116,7 @@ export function createClientInRenderer<IAPI extends object>(
 
         const mergedSignal = raceAbortSignals([
           isntUndefined(timeout) && timeoutSignal(timeout)
+        , signal
         ])
         mergedSignal.addEventListener('abort', sendAbort)
         destructor.defer(() => mergedSignal.removeEventListener('abort', sendAbort))
